@@ -69,7 +69,6 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(444, 172);
             this.listBox1.TabIndex = 1;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             this.listBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.OnDragDrop);
             this.listBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.OnDragEnter);
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
@@ -125,7 +124,6 @@
             this.播放ToolStripMenuItem.Name = "播放ToolStripMenuItem";
             this.播放ToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.播放ToolStripMenuItem.Text = "播放(&P)";
-            this.播放ToolStripMenuItem.Click += new System.EventHandler(this.播放ToolStripMenuItem_Click);
             // 
             // 上一首ToolStripMenuItem
             // 
@@ -240,10 +238,6 @@
             this.button3.Text = "Pause";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // bindingSource1
-            // 
-            this.bindingSource1.CurrentChanged += new System.EventHandler(this.bindingSource1_CurrentChanged);
             // 
             // openFileDialog1
             // 

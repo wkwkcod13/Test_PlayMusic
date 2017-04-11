@@ -12,14 +12,15 @@ namespace mPlay
         private static string[] fileNameExtension = { "mp3","mp4","wav","wv","wma","mpc","aac"};
         private string[] args;
 
+        private ConcurrentDictionary<string, int> playList = new ConcurrentDictionary<string, int>();
+        private System.Timers.Timer timer = new System.Timers.Timer();//設定計時器
+
+
         public Form1(string[] args)
         {
             InitializeComponent();
             this.args = args;
         }
-
-        private ConcurrentDictionary<string, int> playList = new ConcurrentDictionary<string, int>();
-        private System.Timers.Timer timer = new System.Timers.Timer();//設定計時器
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -27,15 +28,7 @@ namespace mPlay
             listBox1.AllowDrop = true;
 
             //事件綁定
-            wPlayer.CurrentPlaylistChange += CurrentPlaylistChange;
-            wPlayer.PositionChange += PositionChange;//撥放進度改變時
-            wPlayer.PlayStateChange += PlayStateChange;//播放狀態改變時
             wPlayer.CurrentItemChange += CurrentItemChange;//正在播放的物件改變時
-
-            wPlayer.CurrentPlaylistItemAvailable += CurrentPlaylistItemAvalable;//
-            wPlayer.CurrentMediaItemAvailable += CurrentMediaItemAvailable;//
-            wPlayer.DurationUnitChange += DurationUnitChange;
-            wPlayer.MediaChange += MediaChange;
 
             wPlayer.settings.volume = 10;
 
@@ -76,28 +69,6 @@ namespace mPlay
             wPlayer.controls.currentPosition = ((double)obj.Value) / 1000;
         }
 
-        public void NewStream()
-        {
-        }
-
-        public void MediaChange(Object Item)
-        {
-        }
-
-        public void DurationUnitChange(int NewDurationUnit)
-        {
-
-        }
-
-        public void CurrentMediaItemAvailable(string bstrItemName)
-        {
-
-        }
-
-        public void CurrentPlaylistItemAvalable(string bstrItemName)
-        {
-
-        }
 
         //播放物件改變時觸發
         public void CurrentItemChange(Object item)
@@ -124,22 +95,6 @@ namespace mPlay
             {
                 listBox1.SelectedIndex = index;
             }));
-        }
-
-        public void PositionChange(double oldPosition, double newPosition)
-        {
-            
-        }
-
-        //撥放狀態改變時觸發
-        public void PlayStateChange(int NewState)
-        {
-
-        }
-
-
-        public void CurrentPlaylistChange(WMPPlaylistChangeEventType e)
-        {
         }
 
         IWMPPlaylist playerLists;
@@ -207,16 +162,10 @@ namespace mPlay
                     tmp = names.Split('\\');
                     listBox1.Items.Add(tmp[tmp.Length - 1]);
                     IWMPMedia media = wPlayer.newMedia(names);
-                    //media.name = media.getItemInfo("Title");
                     playList.TryAdd(tmp[tmp.Length - 1], wPlayer.currentPlaylist.count);
                     wPlayer.currentPlaylist.insertItem(wPlayer.currentPlaylist.count, media);
                 }
             }));
-        }
-
-        private void bindingSource1_CurrentChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void 順序播放ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -253,11 +202,6 @@ namespace mPlay
         private void 下一首ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             wPlayer.controls.next();
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
@@ -306,11 +250,6 @@ namespace mPlay
                 string[] fileNames = openFileDialog1.FileNames;
                 CheckType(fileNames);
             }
-        }
-
-        private void 播放ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
